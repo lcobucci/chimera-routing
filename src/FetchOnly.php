@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Lcobucci\Chimera\QueryBus;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class FetchOnly implements MiddlewareInterface
 {
@@ -28,13 +29,13 @@ final class FetchOnly implements MiddlewareInterface
         $this->query    = $query;
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $result = $this->queryBus->handle($this->query, $request);
 
         $request = $request->withAttribute(Attributes::QUERY_RESULT, $result)
                            ->withAttribute(Attributes::PROCESSED, true);
 
-        return $delegate->process($request);
+        return $handler->handle($request);
     }
 }

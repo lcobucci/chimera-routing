@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Lcobucci\Chimera\Routing\Attributes;
 use Lcobucci\Chimera\Routing\Dispatcher;
 use Lcobucci\Chimera\Routing\ResponseGenerator;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\ServerRequest;
 
@@ -47,7 +45,7 @@ final class DispatcherTest extends RoutingTestCase
 
         self::assertSame(
             $response,
-            $dispatcher->process($request, $this->createMock(DelegateInterface::class))
+            $dispatcher->process($request, $this->createMock(RequestHandlerInterface::class))
         );
     }
 }

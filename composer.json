@@ -15,8 +15,8 @@
     },
     "require": {
         "php": "^7.2",
-        "http-interop/http-middleware": "^0.4",
-        "lcobucci/chimera-foundation": "^1.0@alpha"
+        "lcobucci/chimera-foundation": "^1.0@alpha",
+        "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
         "infection/infection": "^0.7",
