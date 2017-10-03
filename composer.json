@@ -1,0 +1,42 @@
+{
+    "name": "lcobucci/chimera-routing",
+    "description": "A collection of reusable PSR-15 middlewares that connects chimerra-foundation to any framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luís Cobucci",
+            "email": "lcobucci@gmail.com"
+        }
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^7.1",
+        "http-interop/http-middleware": "^0.4",
+        "lcobucci/chimera-foundation": "1.0.x-dev@dev"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.8",
+        "phpunit/phpunit": "^6.3",
+        "squizlabs/php_codesniffer": "^3.1",
+        "zendframework/zend-diactoros": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lcobucci\\Chimera\\Routing\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lcobucci\\Chimera\\Routing\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

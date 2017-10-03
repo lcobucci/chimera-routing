@@ -1,0 +1,4 @@
+parameters:
+    ignoreErrors:
+        # Ignore PHPUnit mock stuff
+        - '#but returns PHPUnit_Framework_MockObject_MockObject#'
