@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Lcobucci\Chimera\Routing\Attributes;
 use Lcobucci\Chimera\Routing\ExecuteOnly;
-use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\ServerRequest;
 
 final class ExecuteOnlyTest extends RoutingTestCase
@@ -19,16 +17,13 @@ final class ExecuteOnlyTest extends RoutingTestCase
      */
     public function processShouldHandleTheCommandAndCallTheRequestHandler(): void
     {
-        $request  = new ServerRequest();
-        $response = new EmptyResponse();
+        $request = new ServerRequest();
 
-        $expectedRequest = $request->withAttribute(Attributes::PROCESSED, true);
+        $middleware = new ExecuteOnly(
+            $this->createCommandBus($request, self::COMMAND),
+            self::COMMAND
+        );
 
-        $commandBus = $this->createCommandBus($request, self::COMMAND);
-        $handler    = $this->createDelegate($expectedRequest, $response);
-
-        $middleware = new ExecuteOnly($commandBus, self::COMMAND);
-
-        self::assertSame($response, $middleware->process($request, $handler));
+        $this->assertCorrectResponse($middleware, $request, $this->flagAsProcessed($request));
     }
 }
