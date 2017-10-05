@@ -3,15 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Lcobucci\Chimera\Routing\Attributes;
 use Lcobucci\Chimera\Routing\FetchOnly;
-use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\ServerRequest;
 
 final class FetchOnlyTest extends RoutingTestCase
 {
-    private const QUERY  = 'Testing';
-    private const RESULT = ['foo' => 'bar'];
+    private const QUERY = 'Testing';
 
     /**
      * @test
@@ -20,17 +17,13 @@ final class FetchOnlyTest extends RoutingTestCase
      */
     public function processShouldHandleTheQueryAndSendTheResultToTheNextRequestHandler(): void
     {
-        $request  = new ServerRequest();
-        $response = new EmptyResponse();
+        $request = new ServerRequest();
 
-        $expectedRequest = $request->withAttribute(Attributes::QUERY_RESULT, self::RESULT)
-                                   ->withAttribute(Attributes::PROCESSED, true);
+        $middleware = new FetchOnly(
+            $this->createQueryBus($request, self::QUERY, self::RESULT),
+            self::QUERY
+        );
 
-        $queryBus = $this->createQueryBus($request, self::QUERY, self::RESULT);
-        $handler  = $this->createDelegate($expectedRequest, $response);
-
-        $middleware = new FetchOnly($queryBus, self::QUERY);
-
-        self::assertSame($response, $middleware->process($request, $handler));
+        $this->assertCorrectResponse($middleware, $request, $this->appendResultData($request));
     }
 }

@@ -3,16 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Lcobucci\Chimera\Routing\Attributes;
 use Lcobucci\Chimera\Routing\CreateOnly;
-use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\ServerRequest;
 
 final class CreateOnlyTest extends RoutingTestCase
 {
-    private const COMMAND      = 'Testing';
-    private const ROUTE_NAME   = 'testing';
-    private const GENERATED_ID = '1';
+    private const COMMAND = 'Testing';
 
     /**
      * @test
@@ -21,19 +17,11 @@ final class CreateOnlyTest extends RoutingTestCase
      */
     public function processShouldModifyTheRequestHandleTheCommandAndCallTheRequestHandler(): void
     {
-        $response = new EmptyResponse();
-        $request  = new ServerRequest();
-
-        $expectedRequest = $request->withAttribute(Attributes::GENERATED_ID, self::GENERATED_ID)
-                                   ->withAttribute(Attributes::RESOURCE_LOCATION, self::ROUTE_NAME);
-
-        $processedRequest = $expectedRequest->withAttribute(Attributes::PROCESSED, true);
-
-        $commandBus = $this->createCommandBus($expectedRequest, self::COMMAND);
-        $handler    = $this->createDelegate($processedRequest, $response);
+        $request        = new ServerRequest();
+        $handledRequest = $this->appendCreationData($request);
 
         $middleware = new CreateOnly(
-            $commandBus,
+            $this->createCommandBus($handledRequest, self::COMMAND),
             self::COMMAND,
             function (): string {
                 return self::GENERATED_ID;
@@ -41,6 +29,6 @@ final class CreateOnlyTest extends RoutingTestCase
             self::ROUTE_NAME
         );
 
-        self::assertSame($response, $middleware->process($request, $handler));
+        $this->assertCorrectResponse($middleware, $request, $this->flagAsProcessed($handledRequest));
     }
 }
