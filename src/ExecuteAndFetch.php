@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Lcobucci\Chimera\CommandBus;
 use Lcobucci\Chimera\QueryBus;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class ExecuteAndFetch implements MiddlewareInterface
 {
@@ -43,7 +44,7 @@ final class ExecuteAndFetch implements MiddlewareInterface
         $this->query      = $query;
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->commandBus->handle($this->command, $request);
 
@@ -52,6 +53,6 @@ final class ExecuteAndFetch implements MiddlewareInterface
         $request = $request->withAttribute(Attributes::QUERY_RESULT, $result)
                            ->withAttribute(Attributes::PROCESSED, true);
 
-        return $delegate->process($request);
+        return $handler->handle($request);
     }
 }

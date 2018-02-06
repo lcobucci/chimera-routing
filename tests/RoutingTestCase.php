@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Lcobucci\Chimera\CommandBus;
 use Lcobucci\Chimera\QueryBus;
 use Lcobucci\Chimera\Routing\Attributes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\EmptyResponse;
 
 abstract class RoutingTestCase extends \PHPUnit\Framework\TestCase
@@ -69,19 +69,19 @@ abstract class RoutingTestCase extends \PHPUnit\Framework\TestCase
         ServerRequestInterface $dispatchedRequest
     ): void {
         $response = new EmptyResponse();
-        $delegate = $this->createDelegate($dispatchedRequest, $response);
+        $handler  = $this->createHandler($dispatchedRequest, $response);
 
-        self::assertSame($response, $middleware->process($initialRequest, $delegate));
+        self::assertSame($response, $middleware->process($initialRequest, $handler));
     }
 
-    private function createDelegate(
+    private function createHandler(
         ServerRequestInterface $request,
         ResponseInterface $response
-    ): DelegateInterface {
-        $handler = $this->createMock(DelegateInterface::class);
+    ): RequestHandlerInterface {
+        $handler = $this->createMock(RequestHandlerInterface::class);
 
         $handler->expects($this->once())
-                ->method('process')
+                ->method('handle')
                 ->with($this->equalTo($request))
                 ->willReturn($response);
 
