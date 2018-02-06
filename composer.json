@@ -14,7 +14,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "http-interop/http-middleware": "^0.4",
         "lcobucci/chimera-foundation": "^1.0@alpha"
     },
