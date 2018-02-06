@@ -21,9 +21,7 @@ final class DispatcherTest extends RoutingTestCase
      */
     public function processDelegatesTheRequestIfItHasNotBeenProcessedAlready(): void
     {
-        $request = new ServerRequest();
-        $request = $request->withAttribute(Attributes::PROCESSED, false);
-
+        $request    = new ServerRequest();
         $dispatcher = new Dispatcher($this->createMock(ResponseGenerator::class));
 
         $this->assertCorrectResponse($dispatcher, $request, $request);
