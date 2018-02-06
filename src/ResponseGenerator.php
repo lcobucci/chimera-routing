@@ -8,5 +8,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface ResponseGenerator
 {
+    /**
+     * @param mixed|null $result
+     */
     public function generateResponse(ServerRequestInterface $request, $result = null): ResponseInterface;
 }

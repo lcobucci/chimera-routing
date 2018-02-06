@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing\Tests;
 
-use Lcobucci\Chimera\Routing\Attributes;
 use Lcobucci\Chimera\Routing\Dispatcher;
 use Lcobucci\Chimera\Routing\ResponseGenerator;
 use Psr\Http\Server\RequestHandlerInterface;
