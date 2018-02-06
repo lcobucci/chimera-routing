@@ -19,6 +19,7 @@
         "lcobucci/chimera-foundation": "^1.0@alpha"
     },
     "require-dev": {
+        "infection/infection": "^0.7",
         "phpstan/phpstan": "^0.9",
         "phpstan/phpstan-phpunit": "^0.9",
         "phpunit/phpunit": "^6.3",
