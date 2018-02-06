@@ -19,7 +19,8 @@
         "lcobucci/chimera-foundation": "^1.0@alpha"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.8",
+        "phpstan/phpstan": "^0.9",
+        "phpstan/phpstan-phpunit": "^0.9",
         "phpunit/phpunit": "^6.3",
         "squizlabs/php_codesniffer": "^3.1",
         "zendframework/zend-diactoros": "^1.6"
