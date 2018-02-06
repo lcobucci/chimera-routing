@@ -6,13 +6,14 @@ namespace Lcobucci\Chimera\Routing\Tests;
 use Lcobucci\Chimera\CommandBus;
 use Lcobucci\Chimera\QueryBus;
 use Lcobucci\Chimera\Routing\Attributes;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\EmptyResponse;
 
-abstract class RoutingTestCase extends \PHPUnit\Framework\TestCase
+abstract class RoutingTestCase extends TestCase
 {
     protected const GENERATED_ID = '1';
     protected const ROUTE_NAME   = 'testing';
@@ -31,10 +32,13 @@ abstract class RoutingTestCase extends \PHPUnit\Framework\TestCase
         return $bus;
     }
 
+    /**
+     * @param string[] $result
+     */
     protected function createQueryBus(
         ServerRequestInterface $request,
         string $expectedQuery,
-        $result
+        array $result
     ): QueryBus {
         $bus = $this->createMock(QueryBus::class);
 
