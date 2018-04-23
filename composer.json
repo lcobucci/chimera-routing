@@ -1,6 +1,6 @@
 {
     "name": "lcobucci/chimera-routing",
-    "description": "A collection of reusable PSR-15 middlewares that connects chimerra-foundation to any framework",
+    "description": "A collection of reusable PSR-15 components that connects Chimera to any framework",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,6 +16,8 @@
     "require": {
         "php": "^7.2",
         "lcobucci/chimera-foundation": "^1.0@alpha",
+        "lcobucci/content-negotiation-middleware": "^1.0",
+        "middlewares/negotiation": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
