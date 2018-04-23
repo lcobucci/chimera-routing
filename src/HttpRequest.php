@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing;
 
+use function assert;
 use Lcobucci\Chimera\Input;
 use Psr\Http\Message\ServerRequestInterface;
 use function is_array;
@@ -45,11 +46,9 @@ final class HttpRequest implements Input
      */
     private function getContext(): array
     {
-        $data = [];
+        $routeParams = $this->request->getAttribute(RouteParamsExtraction::class, []);
+        assert(is_array($routeParams));
 
-        $data += $this->request->getAttribute(RouteParamsExtraction::class, []);
-        $data += $this->request->getQueryParams();
-
-        return $data;
+        return $routeParams + $this->request->getQueryParams();
     }
 }

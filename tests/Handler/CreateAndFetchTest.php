@@ -15,8 +15,8 @@ use Lcobucci\ContentNegotiation\UnformattedResponse;
 use Middlewares\Utils\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\ServerRequest;
-use function assert;
 
 /**
  * @coversDefaultClass \Lcobucci\Chimera\Routing\Handler\CreateAndFetch
@@ -95,13 +95,12 @@ final class CreateAndFetchTest extends TestCase
                            ->with($request->withAttribute(IdentifierGenerator::class, 1), 'info')
                            ->willReturn('/testing/1');
 
+        /** @var ResponseInterface|UnformattedResponse $response */
         $response = $handler->handle($request);
 
         self::assertInstanceOf(UnformattedResponse::class, $response);
         self::assertSame(StatusCodeInterface::STATUS_CREATED, $response->getStatusCode());
         self::assertSame('/testing/1', $response->getHeaderLine('Location'));
-
-        assert($response instanceof UnformattedResponse);
         self::assertSame([ExecuteQuery::class => 'query'], $response->getAttributes());
         self::assertSame('result', $response->getUnformattedContent());
     }
