@@ -16,7 +16,7 @@
     "require": {
         "php": "^7.2",
         "doctrine/coding-standard": "^4.0",
-        "lcobucci/chimera-foundation": "^1.0@alpha",
+        "lcobucci/chimera-foundation": "^1.0@rc",
         "lcobucci/content-negotiation-middleware": "^1.0",
         "middlewares/negotiation": "^1.0",
         "psr/http-server-middleware": "^1.0"
