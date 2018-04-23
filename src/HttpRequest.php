@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Lcobucci\Chimera\Routing;
 
-use function assert;
 use Lcobucci\Chimera\Input;
 use Psr\Http\Message\ServerRequestInterface;
+use function assert;
 use function is_array;
 
 /**
