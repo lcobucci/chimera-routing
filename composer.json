@@ -15,13 +15,13 @@
     },
     "require": {
         "php": "^7.2",
-        "doctrine/coding-standard": "^4.0",
         "lcobucci/chimera-foundation": "^1.0@rc",
         "lcobucci/content-negotiation-middleware": "^1.0",
         "middlewares/negotiation": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
+        "doctrine/coding-standard": "^4.0",
         "infection/infection": "^0.8",
         "phpstan/phpstan": "^0.10@dev",
         "phpstan/phpstan-phpunit": "^0.10@dev",
