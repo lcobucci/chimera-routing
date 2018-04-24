@@ -8,23 +8,25 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class Async implements MiddlewareInterface
+final class RouteParamsExtraction implements MiddlewareInterface
 {
     /**
-     * @var MiddlewareInterface
+     * @var RouteParamsExtractor
      */
-    private $processor;
+    private $extractor;
 
-    public function __construct(MiddlewareInterface $processor)
+    public function __construct(RouteParamsExtractor $extractor)
     {
-        $this->processor = $processor;
+        $this->extractor = $extractor;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        return $this->processor->process(
-            $request->withAttribute(Attributes::ASYNCHRONOUS, true),
-            $handler
+        return $handler->handle(
+            $request->withAttribute(__CLASS__, $this->extractor->getParams($request))
         );
     }
 }

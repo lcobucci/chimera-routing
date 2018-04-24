@@ -22,6 +22,7 @@ script:
 jobs:
   allow_failures:
     - php: nightly
+    - env: STATIC_ANALYSIS=1
 
   include:
     - stage: Code Quality
@@ -36,14 +37,14 @@ jobs:
         - php ocular.phar code-coverage:upload --format=php-clover ./clover.xml
 
     - stage: Code Quality
-      env: CODE_STANDAR=1
+      env: CODE_STANDARD=1
       script:
         - ./vendor/bin/phpcs
 
     - stage: Code Quality
       env: STATIC_ANALYSIS=1
       script:
-        - ./vendor/bin/phpstan analyse -c phpstan.neon -l max src tests
+        - ./vendor/bin/phpstan analyse
 
     - stage: Code Quality
       env: MUTATION_TESTS=1
