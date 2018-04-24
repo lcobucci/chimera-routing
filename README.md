@@ -116,6 +116,7 @@ use Lcobucci\ContentNegotiation\ContentTypeMiddleware;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\Handler\NotFoundHandler;
+use Zend\Expressive\Helper\BodyParams;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\MiddlewareFactory;
@@ -140,6 +141,11 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // `Zend\Expressive\Router\Middleware\RouteMiddleware` middleware, otherwise
     // matched routed info is not available)
     $app->pipe(RouteParamsExtraction::class);
+
+    // It's quite important to add this one to the list, so that we ensure
+    // that the request body is properly parsed and can be retrieved via
+    // `ServerRequestInterface#getParsedBody()` - used by the `HttpRequest` input
+    $app->pipe(BodyParams::class);
 
     $app->pipe(ImplicitHeadMiddleware::class);
     $app->pipe(ImplicitOptionsMiddleware::class);
